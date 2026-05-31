@@ -154,6 +154,14 @@ git push
 
 **原则：图片必须分散插入到对应章节，不要建立独立的"论文原图解析"章节**
 
+**本地图片保存要求（所有论文/报告通用）**：
+- 新增或优化任何 Markdown 论文报告时，论文关键图片都应下载并保留到本地仓库路径，避免正文长期依赖远程图片 URL
+- 优先沿用当前文档所在目录已有图片文件夹，例如 `WorldModel/motus_imgs/`、`VLA/MINT/imgs/`；如果当前目录没有图片文件夹，就在该 Markdown 文件同级新建 `imgs/`
+- 图片命名格式建议为 `{paper_slug}_fig{N}_{short_name}.png`，例如 `dawn_fig2_overview.png`
+- Markdown 中优先引用本地相对路径，例如 `![DAWN 架构](./motus_imgs/dawn_fig2_overview.png)` 或 `![方法框架](./imgs/paper_fig1_framework.png)`
+- 若图片来自 arXiv HTML，先用 `https://arxiv.org/html/{paper_id}v{version}/xN.png` 验证和下载，再在报告中替换为本地路径
+- 仅在无法下载或用户明确要求远程引用时，保留远程图片 URL，并标注原因
+
 | 图片类型 | 插入位置 |
 |---------|---------|
 | 算法框架图 | 方法详述 → 算法框架章节 |
@@ -469,4 +477,3 @@ logger.log_operation("代码审查", "FlowGRPO 格式修复完成")
 
 - 位置：`./sotafollow.log`（项目根目录）
 - 轮转：文件达到 10MB 时自动轮转，保留最近 5 个文件
-
