@@ -404,6 +404,29 @@ Stage 0 是 slot-aware trunk pretraining，约 600k steps、2.5T tokens；Stage 
 
 LIBERO 按四个 suite 各 100 episodes、3 seeds；LIBERO-Plus 按 7 个扰动轴、每轴 100 episodes、3 seeds；SimplerEnv 使用官方 WidowX Bridge visual-matching protocol，每个 task 25 episodes、3 seeds。论文强调 LIBERO-Plus 不参与训练。
 
+### Appendix Benchmark task gallery
+
+> **图 6：Representative tasks from the four LIBERO suites: Spatial, Object, Goal, and Long.**（对应论文 Appendix Figure: Benchmark task gallery / LIBERO）
+>
+> ![OA-WAM LIBERO gallery](motus_imgs/oawam_fig6_gallery_libero.png)
+>
+> - 这张图补充展示 LIBERO 四个标准 suite 的任务外观，帮助理解论文中 `Spatial/Object/Goal/Long` 四列 success rate 的来源。
+> - OA-WAM 在这些标准任务上平均 97.8，说明对象可寻址结构没有牺牲 in-distribution 操作能力。
+
+> **图 7：Representative tasks from the four SimplerEnv WidowX (Bridge) suites: Spoon-Towel, Carrot-Plate, Stack-Cube, and Eggplant-Basket.**（对应论文 Appendix Figure: Benchmark task gallery / SimplerEnv）
+>
+> ![OA-WAM SimplerEnv gallery](motus_imgs/oawam_fig7_gallery_simplerenv.png)
+>
+> - SimplerEnv 图展示四个 Bridge visual-matching 任务，覆盖放置、堆叠、容器投放等操作形态。
+> - OA-WAM 的动作头输出 16-step continuous action chunk，在这些任务上平均达到 79.3。
+
+> **图 8：LIBERO-Plus perturbation gallery. The seven perturbation axes are Objects Layout, Background Textures, Light Conditions, Camera Viewpoints, Robot Initial States, Language Instructions, and Sensor Noise, applied to Spatial, Object, Goal, and Long-horizon rows.**（对应论文 Appendix Figure: LIBERO-Plus perturbation gallery）
+>
+> ![OA-WAM LIBERO-Plus gallery](motus_imgs/oawam_fig8_gallery_lp.png)
+>
+> - 这张图直观说明 LIBERO-Plus 的七类 OOD 扰动，其中 Camera/Robot/Layout 最能检验“目标身份不变、几何上下文改变”的对象绑定能力。
+> - OA-WAM 在几何三轴 Geo Avg 达到 84.3，但 Sensor Noise 只有 75.6，和论文对上游 slot extraction 瓶颈的分析一致。
+
 ## 9. 总结
 
 OA-WAM 的核心贡献是把 WAM 的世界接口从 holistic future representation 改为对象可寻址 slot state，并通过 address-only key projection + per-layer address reset 使目标绑定成为架构性质。实验上，它在 LIBERO 与 SimplerEnv 保持 SOTA 级性能，在 LIBERO-Plus 的 Camera/Robot/Layout 几何扰动轴上明显领先，说明对象级 identity routing 对机器人鲁棒操作非常关键。
