@@ -39,6 +39,7 @@
 | **Latent-WAM** ⭐ | 2026 | SCWE 16-query 压缩 + WorldMirror 几何蒸馏，感知自由 89.3 | [精读](./WorldModel/Latent-WAM_精读报告.md) |
 | **DAWN** ⭐ | 2026 | WAIM 递归世界-动作交互，短 latent rollout，NAVSIM v1 PDMS 89.1 | [精读](./WorldModel/DAWN_精读报告.md) |
 | **World Action Models** ⭐ | 2026 | 首篇 WAM 系统综述，Cascaded/Joint 分类，数据与评测框架 | [精读](./WorldModel/World_Action_Models_综述精读报告.md) |
+| **OA-WAM** ⭐ | 2026 | 对象可寻址 WAM，addr-only slot routing，LIBERO 97.8 / SimplerEnv 79.3 | [精读](./WorldModel/OA-WAM_精读报告.md) |
 | **AIM** ⭐ | 2026 | 空间价值图桥接未来视频生成与动作解码，RoboTwin 2.0 平均 93.1 | [精读](./WorldModel/AIM_精读报告.md) |
 | **Epona** | 2025 | 自回归扩散世界模型，Chain-of-Forward 训练 | [精读](./WorldModel/Epona-精读报告.md) |
 | **Fast-WAM** | 2026 | 测试时想象是否必要？端到端规划加速 48× | [精读](./WorldModel/Fast-WAM_精读报告.md) |

@@ -67,6 +67,15 @@ state + action  --->  next state / future observation
 > - **右侧 Cascaded WAM**：先预测未来表示，再从未来表示解码动作，分为显式像素计划和隐式 latent 计划。
 > - 这张图不是严格时间替代关系，而是 WAM 架构耦合方式的谱系图。
 
+> **图 2：The comprehensive roadmap and taxonomy of World Action Models (WAMs) reviewed in this survey. The literature is systematically categorized into four core dimensions: background, architecture, training data, and evaluation protocols.**（对应论文 Figure 2）
+>
+> ![WAM 综合路线图与分类](./motus_imgs/wam_survey_fig7_roadmap.png)
+>
+> - 这张图是全文综述结构的总地图，把 WAM 文献按照 **背景基础、架构路线、训练数据、评测协议** 四个维度组织。
+> - **Background** 部分连接 VLA、World Model、WM for VLA 等前置脉络。
+> - **Architecture** 部分是报告后续 Cascaded / Joint WAM 分类的总入口。
+> - **Training data / Evaluation** 两部分分别对应数据生态与评测体系，解释为什么 WAM 不是单一模型，而是一个从数据到评测都需要重组的新范式。
+
 ---
 
 ## 3. 核心贡献
@@ -116,7 +125,7 @@ $$
 | Forward Predictive Modeling | 能生成或利用可量化的未来状态表示 $o'$，可以是 RGB、flow、latent、3D、触觉等 |
 | Coupled Action Generation | 动作 $a$ 必须与预测未来状态 $o'$ 对齐，可以是联合输出，也可以是 cascaded conditioning |
 
-> **图 2：Conceptual definition and comparison of World Action Models (WAMs). The left panel contrasts the input-output formulations of Vision-Language-Action (VLA) models, WAMs, and standard World Models (WMs), highlighting WAM's capability to jointly predict actions and future observations. The right panel illustrates the conceptual scope of WAMs relative to other paradigms such as Video Action Models (VAMs) and Video Policies.**（对应论文 Figure 2）
+> **图 3：Conceptual definition and comparison of World Action Models (WAMs). The left panel contrasts the input-output formulations of Vision-Language-Action (VLA) models, WAMs, and standard World Models (WMs), highlighting WAM's capability to jointly predict actions and future observations. The right panel illustrates the conceptual scope of WAMs relative to other paradigms such as Video Action Models (VAMs) and Video Policies.**（对应论文 Figure 3）
 >
 > ![WAM 概念定义](./motus_imgs/wam_survey_fig2_definition.png)
 >
@@ -175,7 +184,7 @@ p(o', a \mid o, l) =
 p(a \mid o', o, l)p(o' \mid o, l)
 $$
 
-> **图 4：Schematic comparison of cascaded WAM structures. 1(a) Learned Action: a world model generates an explicit pixel-space future plan, which is mapped to actions by a learned inverse-dynamics or action model. 1(b) Geometric Extraction: the explicit visual plan is converted into actions or trajectories through geometric extraction. 2(a) Latent Representation: the intermediate planning carrier is a latent future representation rather than future RGB frames, and the downstream action model decodes executable commands from it.**（对应论文 Figure 4）
+> **图 5：Schematic comparison of cascaded WAM structures. 1(a) Learned Action: a world model generates an explicit pixel-space future plan, which is mapped to actions by a learned inverse-dynamics or action model. 1(b) Geometric Extraction: the explicit visual plan is converted into actions or trajectories through geometric extraction. 2(a) Latent Representation: the intermediate planning carrier is a latent future representation rather than future RGB frames, and the downstream action model decodes executable commands from it.**（对应论文 Figure 5）
 >
 > ![Cascaded WAM 结构](./motus_imgs/wam_survey_fig4_cascaded.png)
 >
@@ -206,7 +215,7 @@ shared / coupled generative backbone
 | Autoregressive Generation | 离散视觉 token、动作 token、统一 next-token prediction | 易和 LLM/VLM 统一，序列建模清晰 | 长序列成本高，误差累积 |
 | Diffusion-based Generation | DiT / Flow Matching / multi-stream denoising | 连续动作和多模态未来更自然 | 推理慢，world-action 耦合接口复杂 |
 
-> **图 5：Taxonomy of the main architectural patterns in the diffusion-based joint WAMs. 1(a) Unified Stream: World and action are integrated within one single DiT backbone, with world modeling realized either explicitly or implicitly. 2(a) Multi-Stream -- Cross-Attention Coupled: separate video and action DiTs are coupled through explicit cross-attention. 2(b) Multi-Stream -- Hidden-State Coupling: intermediate hidden states from the video DiT condition the action DiT. 2(c) Multi-Stream -- Shared Representation: video and action are first fused through a unified encoder before being decoded into their respective outputs.**（对应论文 Figure 5）
+> **图 6：Taxonomy of the main architectural patterns in the diffusion-based joint WAMs. 1(a) Unified Stream: World and action are integrated within one single DiT backbone, with world modeling realized either explicitly or implicitly. 2(a) Multi-Stream -- Cross-Attention Coupled: separate video and action DiTs are coupled through explicit cross-attention. 2(b) Multi-Stream -- Hidden-State Coupling: intermediate hidden states from the video DiT condition the action DiT. 2(c) Multi-Stream -- Shared Representation: video and action are first fused through a unified encoder before being decoded into their respective outputs.**（对应论文 Figure 6）
 >
 > ![Diffusion Joint WAM 架构分类](./motus_imgs/wam_survey_fig5_diffusion_arch.png)
 >
@@ -217,7 +226,7 @@ shared / coupled generative backbone
 
 ### 4.5 World Model 如何服务 VLA
 
-> **图 3：Schematic overview of world models for VLA learning and evaluation. World models can support (a) imitation learning by generating or filtering training trajectories, (b) reinforcement learning by enabling imagined interaction and reward-guided policy optimization, (c) reward modeling by producing reward signals from learned dynamics or future outcomes, and (d) policy evaluation by serving as data-driven simulators for virtual rollout and testing. Here, T denotes the rollout trajectories.**（对应论文 Figure 3）
+> **图 4：Schematic overview of world models for VLA learning and evaluation. World models can support (a) imitation learning by generating or filtering training trajectories, (b) reinforcement learning by enabling imagined interaction and reward-guided policy optimization, (c) reward modeling by producing reward signals from learned dynamics or future outcomes, and (d) policy evaluation by serving as data-driven simulators for virtual rollout and testing. Here, T denotes the rollout trajectories.**（对应论文 Figure 4）
 >
 > ![World Model for VLA](./motus_imgs/wam_survey_fig3_foundation.png)
 >
@@ -228,7 +237,7 @@ shared / coupled generative backbone
 
 ### 4.6 训练数据生态
 
-> **图 6：An overview of the embodied data landscape for training World Action Models, mapped across Transfer Difficulty (Y-axis) and Scaling Difficulty (X-axis).**（对应论文 Figure 6）
+> **图 7：An overview of the embodied data landscape for training World Action Models, mapped across Transfer Difficulty (Y-axis) and Scaling Difficulty (X-axis).**（对应论文 Figure 7）
 >
 > ![WAM 数据生态](./motus_imgs/wam_survey_fig6_data_overview.png)
 >

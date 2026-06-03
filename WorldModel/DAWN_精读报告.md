@@ -413,6 +413,50 @@ NAVSIM v2 上 DAWN 的 EPDMS 不是最强，主要短板来自 DAC 和碰撞相�
 | More Qualitative Results | 补充 planning、prediction 和 feature map 可视化。 |
 | Pseudo Code of DAWN | 给出 DAWN Training 与 DAWN Inference 两段算法伪代码。 |
 
+### Appendix qualitative figures
+
+> **图 6：More qualitative results of planning.**（对应论文 Appendix Figure: More qualitative results of planning）
+>
+> ![DAWN 更多规划定性结果](./motus_imgs/dawn_fig6_more_planning.png)
+>
+> - 该图补充更多驾驶场景下的规划轨迹，对主文 Figure 4 的五个代表场景做扩展。
+> - 从 front-view 与 BEV 轨迹对比可以继续看到 DAWN 的轨迹更贴合道路几何和可行驶区域。
+
+> **图 7：More qualitative results of prediction.**（对应论文 Appendix Figure: More qualitative results of prediction, part 1）
+>
+> ![DAWN 更多预测结果 1](./motus_imgs/dawn_fig7_prediction_1.png)
+>
+> - 展示 DAWN latent world rollout 对未来场景演化的预测效果。
+> - 这些预测图不是直接用于 pixel-space planning，而是用于验证 compact latent 是否保留了 action-relevant dynamics。
+
+> **图 8：More qualitative results of prediction.**（对应论文 Appendix Figure: More qualitative results of prediction, part 2）
+>
+> ![DAWN 更多预测结果 2](./motus_imgs/dawn_fig8_prediction_2.png)
+>
+> - 第二组预测样例继续覆盖不同道路结构和交通参与者布局。
+> - 结合 rollout horizon 消融可看出：短未来预测足以提供规划约束，完整长时域重建并非必要。
+
+> **图 9：More qualitative results of prediction.**（对应论文 Appendix Figure: More qualitative results of prediction, part 3）
+>
+> ![DAWN 更多预测结果 3](./motus_imgs/dawn_fig9_prediction_3.png)
+>
+> - 第三组预测样例补充复杂场景下的时序一致性观察。
+> - 这部分主要支撑论文对 World Predictor 的解释：预测分支不是独立展示用的未来生成器，而是 action denoising 的动态条件。
+
+> **图 10：More qualitative results of feature.**（对应论文 Appendix Figure: More qualitative results of feature, part 1）
+>
+> ![DAWN 特征可视化 1](./motus_imgs/dawn_fig10_feature_1.png)
+>
+> - 特征图展示 DAWN 在 latent token 层面对道路结构、车辆和可行驶区域的聚焦。
+> - 它补充说明 AE Resampler 压缩后的 latent 仍保留了规划相关视觉信息。
+
+> **图 11：More qualitative results of feature.**（对应论文 Appendix Figure: More qualitative results of feature, part 2）
+>
+> ![DAWN 特征可视化 2](./motus_imgs/dawn_fig11_feature_2.png)
+>
+> - 第二组 feature 可视化进一步展示不同场景下的 latent 表征分布。
+> - 结合 token 数消融，16 个 latent tokens 是性能与延迟的折中点，而不是简单追求更高压缩率。
+
 ---
 
 ## 9. 总结
