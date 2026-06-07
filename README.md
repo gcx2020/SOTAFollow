@@ -19,6 +19,7 @@
 | 论文 | 年份 | 核心贡献 | 文档 |
 |:-----|:----:|:---------|:-----|
 | **Vega** | 2026 | 统一 Vision-Language-World-Action，InstructScene 100K，NAVSIM EPDMS 89.4 SOTA | [精读](./VLA/Vega_精读报告.md) |
+| **ChainFlow-VLA** ⭐ | 2026 | Chain-to-Flow 因果轨迹模式 + VLM 语义残差扩散，NAVSIM v1 PDMS 94.85 | [精读](./VLA/ChainFlow-VLA_精读报告.md) |
 | **Uni-World VLA** | ECCV 2026 | 交错式闭环 VLA，统一生成未来帧+动作 tokens | [精读](./WorldModel/Uni-World_VLA-论文精读-ECCV2026.md) |
 | **DVGT-2** | 2026 | Vision-Geometry-Action 端到端，O(1) 帧复杂度，PDMS 90.3 | [精读](./VLA/DVGT-2_精读报告.md) |
 | **MINT** ⭐ | 2026 | 频域多尺度动作Tokenizer（SDAT），LIBERO 98.3% SOTA | [精读](./VLA/MINT/MINT-论文精读-arXiv2602.08602.md) |
