@@ -54,20 +54,24 @@ $$
 AR 先生成 $K$ 个轨迹模式 $\{Y_{\mathrm{AR}}^{(k)}\}_{k=1}^{K}$，Flow 学每个模式条件下的局部分布：
 
 $$
+\begin{aligned}
 P(Y \mid Y_{\mathrm{AR}}^{(k)}, \mathcal{O})
-\approx
+&\approx
 P(Y \mid Y_{\mathrm{AR}}^{(k)}, h_{\mathrm{VLM}}).
+\end{aligned}
 $$
 
 最终得到 mixture 近似：
 
 $$
+\begin{aligned}
 P(Y \mid \mathcal{O})
-\approx
+&\approx
 \sum_{k=1}^{K}
 P(Y \mid Y_{\mathrm{AR}}^{(k)}, h_{\mathrm{VLM}})
 \cdot
 P(Y_{\mathrm{AR}}^{(k)} \mid \mathcal{O}).
+\end{aligned}
 $$
 
 ### 4.2 整体 Pipeline
@@ -111,15 +115,21 @@ final selected trajectory
 Chain 使用 $K$ 个并行轨迹假设表示多模态，每一步预测控制量：
 
 $$
-(a_t^{(k)}, \omega_t^{(k)}) =
+\begin{aligned}
+(a_t^{(k)}, \omega_t^{(k)})
+&=
 H_\theta(y_{<t}^{(k)}, \mathcal{O}),
+\end{aligned}
 $$
 
 并通过 bicycle model 得到下一状态：
 
 $$
-y_t^{(k)} =
+\begin{aligned}
+y_t^{(k)}
+&=
 \mathrm{Bicycle}(y_{t-1}^{(k)}, a_t^{(k)}, \omega_t^{(k)}).
+\end{aligned}
 $$
 
 经过 $T$ 步得到 proposal 集合：
@@ -141,9 +151,11 @@ $$
 因此局部分布变为：
 
 $$
+\begin{aligned}
 P(Y \mid Y_{\mathrm{AR}}^{(k)}, h_{\mathrm{VLM}})
-=
+&=
 P(\Delta Y_k \mid Y_{\mathrm{AR}}^{(k)}, h_{\mathrm{VLM}}).
+\end{aligned}
 $$
 
 给定 expert trajectory $Y^*$，残差目标是：
@@ -155,29 +167,38 @@ $$
 扩散前向加噪为：
 
 $$
+\begin{aligned}
 \mathbf{z}_t^{(k)}
-=
+&=
 \sqrt{\bar{\alpha}_t}\Delta Y_k^*
 +
-\sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon},
-\quad
-\boldsymbol{\epsilon}\sim\mathcal{N}(\mathbf{0},\mathbf{I}).
+\sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon}, \\
+\boldsymbol{\epsilon}
+&\sim
+\mathcal{N}(\mathbf{0},\mathbf{I}).
+\end{aligned}
 $$
 
 噪声预测网络为：
 
 $$
+\begin{aligned}
 \hat{\boldsymbol{\epsilon}}^{(k)}
-=
-\boldsymbol{\epsilon}_\theta
-(\mathbf{z}_t^{(k)}, t, c_{\mathrm{ego}}, h_{\mathrm{VLM}}, Y_{\mathrm{AR}}^{(k)}).
+&=
+\boldsymbol{\epsilon}_\theta(
+\mathbf{z}_t^{(k)}, t, c_{\mathrm{ego}},
+h_{\mathrm{VLM}}, Y_{\mathrm{AR}}^{(k)}).
+\end{aligned}
 $$
 
 推理时通过 DDIM 采样残差，并恢复 refined trajectory：
 
 $$
-\hat{Y}_k =
+\begin{aligned}
+\hat{Y}_k
+&=
 Y_{\mathrm{AR}}^{(k)}+\hat{\Delta Y}_k.
+\end{aligned}
 $$
 
 ### 4.5 训练目标
@@ -185,35 +206,46 @@ $$
 Stage I 训练 AR Chain 与 scorer：
 
 $$
+\begin{aligned}
 \mathcal{L}_{\mathrm{stage1}}
-=
+&=
 \mathcal{L}_{\mathrm{traj}}+\lambda_1\mathcal{L}_{\mathrm{scorer}}.
+\end{aligned}
 $$
 
 Stage II 训练 Flow 与 scorer：
 
 $$
+\begin{aligned}
 \mathcal{L}_{\mathrm{stage2}}
-=
+&=
 \lambda_2\mathcal{L}_{\mathrm{diff}}
 +
 \lambda_3\mathcal{L}_{\mathrm{traj}}
 +
 \lambda_4\mathcal{L}_{\mathrm{scorer}}.
+\end{aligned}
 $$
 
 论文采用 asymmetric WTA，把 diffusion supervision 绑定到距离 expert 最近的 AR proposal：
 
 $$
-k^*=\arg\min_k \left\|Y_{\mathrm{AR}}^{(k)}-Y^*\right\|_2,
+\begin{aligned}
+k^*
+&=
+\arg\min_k
+\left\|Y_{\mathrm{AR}}^{(k)}-Y^*\right\|_2,
+\end{aligned}
 $$
 
 扩散损失为：
 
 $$
+\begin{aligned}
 \mathcal{L}_{\mathrm{diff}}
-=
+&=
 \left\|\boldsymbol{\epsilon}-\boldsymbol{\epsilon}_{\theta}\right\|_2^2.
+\end{aligned}
 $$
 
 实现细节：Stage 1 训练 25 epochs，Stage 2 训练 40 epochs；使用 8 张 NVIDIA A800；per-GPU batch size 为 8；基础学习率 $2\times10^{-4}$，按 $\sqrt{B/64}$ 缩放；前 10% steps linear warmup 后 cosine decay；$\lambda_1,\lambda_2,\lambda_3,\lambda_4=(1,10,20,4)$；推理默认 4-step denoising。
